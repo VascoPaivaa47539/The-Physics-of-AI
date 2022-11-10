@@ -1,4 +1,4 @@
-# The-Physics-of-AI - Trabalho 1
+# The Physics of AI - Trabalho 1
 
 Primeiro tutorial do trabalho 1.
 

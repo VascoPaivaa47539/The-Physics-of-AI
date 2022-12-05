@@ -1,56 +1,77 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Flock : MonoBehaviour
 {
 
     public FlockManager myManager;
-    public float speed;
+    float speed;
     bool turning = false;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         speed = Random.Range(myManager.minSpeed, myManager.maxSpeed);
     }
 
-    // Update is called once per frame
+
     void Update()
     {
 
-        Bounds b = new Bounds(myManager.transform.position, myManager.swimLimits * 2);
+       
+        Bounds b = new Bounds(myManager.transform.position, myManager.swimLimits * 2.0f);
+
+        RaycastHit hit = new RaycastHit();
+        Vector3 direction = Vector3.zero;
 
         if (!b.Contains(transform.position))
         {
+
             turning = true;
+            direction = myManager.transform.position - transform.position;
+        }
+        else if (Physics.Raycast(transform.position, this.transform.forward * 50.0f, out hit))
+        {
+
+            turning = true;
+            // Debug.DrawRay(this.transform.position, this.transform.forward * 50.0f, Color.red);
+            direction = Vector3.Reflect(this.transform.forward, hit.normal);
         }
         else
+        {
+
             turning = false;
-
-        if(turning)
-        {
-            Vector3 direction = myManager.transform.position - transform.position;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), myManager.rotationSpeed * Time.deltaTime);
         }
 
+        
+        if (turning)
+        {
+
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.LookRotation(direction), myManager.rotationSpeed * Time.deltaTime);
+        }
         else
         {
-            if (Random.Range(0, 100) < 10)
+
+            
+            if (Random.Range(0.0f, 100.0f) < 10.0f)
             {
+
                 speed = Random.Range(myManager.minSpeed, myManager.maxSpeed);
             }
-            if (Random.Range(0, 100) < 20)
-                ApplyRules();
-        }
-        
-        transform.Translate(0, 0, Time.deltaTime * speed);
 
+            
+            if (Random.Range(0.0f, 100.0f) < 20.0f)
+            {
+
+                ApplyRules();
+            }
+        }
+
+        transform.Translate(0.0f, 0.0f, Time.deltaTime * speed);
     }
 
     void ApplyRules()
     {
+
         GameObject[] gos;
         gos = myManager.allFish;
 
@@ -62,16 +83,20 @@ public class Flock : MonoBehaviour
 
         foreach (GameObject go in gos)
         {
-            if(go != this.gameObject)
+
+            if (go != this.gameObject)
             {
+
                 nDistance = Vector3.Distance(go.transform.position, this.transform.position);
-                if(nDistance <= myManager.neighbourDistance)
+                if (nDistance <= myManager.neighbourDistance)
                 {
+
                     vcentre += go.transform.position;
                     groupSize++;
 
-                    if(nDistance < 1.0f)
+                    if (nDistance < 1.0f)
                     {
+
                         vavoid = vavoid + (this.transform.position - go.transform.position);
                     }
 
@@ -80,15 +105,22 @@ public class Flock : MonoBehaviour
                 }
             }
         }
-        if(groupSize > 0)
+
+        if (groupSize > 0)
         {
+
+            
             vcentre = vcentre / groupSize + (myManager.goalPos - this.transform.position);
             speed = gSpeed / groupSize;
 
             Vector3 direction = (vcentre + vavoid) - transform.position;
             if (direction != Vector3.zero)
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), myManager.rotationSpeed * Time.deltaTime);
+            {
+
+                transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                      Quaternion.LookRotation(direction),
+                                                      myManager.rotationSpeed * Time.deltaTime);
+            }
         }
     }
 }
-

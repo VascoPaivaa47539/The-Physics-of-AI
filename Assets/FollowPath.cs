@@ -52,7 +52,7 @@ public class FollowPath : MonoBehaviour
         if(currentWP < g.getPathLength())
         {
             goal = g.getPathPoint(currentWP).transform;
-            Vector3 direction = lookAtGoal = new Vector3(goal.position.x, this.transform.position.y, goal.position.z);
+            Vector3 lookAtGoal = new Vector3(goal.position.x, this.transform.position.y, goal.position.z);
             Vector3 direction = lookAtGoal - this.transform.position;
 
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * rotSpeed);

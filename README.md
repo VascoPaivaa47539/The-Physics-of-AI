@@ -1,5 +1,10 @@
-# The Physics of AI - Trabalho 1
+# Trabalhos de IA
 
-Primeiro tutorial do trabalho 1.
+Parte 1 - Movimento:
+  -The Physics of AI;
+  -Crowd Simulation;
+  -Tutorial Waypoints & Graphs;
+  
+Parte 2 - Comportamentos e Learning:
 
 Vasco Paiva a47539

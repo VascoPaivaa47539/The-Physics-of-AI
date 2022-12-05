@@ -1,6 +1,6 @@
 # Trabalhos de IA
 
-Parte 1 - Movimento
+Parte 1 - Movimento:
 The Physics of AI;
 Crowd Simulation;
 Tutorial Waypoints & Graphs;
